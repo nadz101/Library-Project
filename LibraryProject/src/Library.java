@@ -74,11 +74,11 @@ public class Library {
         while (scan.hasNextLine() && count < bookCount) {
             String line = scan.nextLine();
             String[] bookinfo = line.split(",");
-            String isbn = bookinfo[1];
-            String title = bookinfo[2];
-            String subject = bookinfo[3];
-            int pageCount = convertInt(bookinfo[4], Code.PAGE_COUNT_ERROR);
-            String author = bookinfo[5];
+            String isbn = bookinfo[0];
+            String title = bookinfo[1];
+            String subject = bookinfo[2];
+            int pageCount = convertInt(bookinfo[3], Code.PAGE_COUNT_ERROR);
+            String author = bookinfo[4];
             LocalDate date = convertDate(bookinfo[5], Code.DATE_CONVERSION_ERROR);
 
             Book BookBeingAdded = new Book(isbn, title, subject, pageCount, author, date);
@@ -90,6 +90,7 @@ public class Library {
     }
 
     private Code initShelves(int shelfCount, Scanner scan) {
+        int shelfCountStart = shelfCount;
         System.out.println("parsing " + shelfCount + " shelves");
         if (shelfCount < 1) {
             return Code.SHELF_COUNT_ERROR;
@@ -102,6 +103,7 @@ public class Library {
 
 
             if (convertInt(shelfinfo[0], Code.SHELF_NUMBER_PARSE_ERROR) <= 0) {
+                System.out.println("shelf number error");
                 return Code.SHELF_NUMBER_PARSE_ERROR;
             }
 
@@ -111,13 +113,11 @@ public class Library {
             ShelfBeingAdded.setShelfNumber(shelfNum);
             addShelf(ShelfBeingAdded);
             for (Book book : books.keySet()) {
-                for (int i = 0; i < books.get(book); i++) {
                     addBookToShelf(book, ShelfBeingAdded);
-                    shelfCount++;
-                }
             }
+            shelfCount--;
         }
-        if (shelves.size() == shelfCount) {
+        if (shelves.size() == shelfCountStart) {
             System.out.println("SUCCESS");
             return Code.SUCCESS;
         }
@@ -170,7 +170,7 @@ public class Library {
             }
 
         }
-        return Code.UNKNOWN_ERROR.getCode();
+        return num;
 
     }
 
@@ -221,8 +221,9 @@ public class Library {
     }
 
     private Code addBookToShelf(Book book, Shelf shelf) {
-        shelf.addBook(book);
+        //shelf.addBook(book);
         if (returnBook(book) == Code.SUCCESS) {
+          //  System.out.println("book returned");
             return Code.SUCCESS;
         }
         if (shelf.getSubject().equals(book.getSubject())) {
