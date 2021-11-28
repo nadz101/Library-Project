@@ -78,16 +78,16 @@ public class Shelf {
     }
 //
     public Code addBook(Book book) {
-        if (books.containsKey(book )) {
+        if (books.containsKey(book)) {
             //increases
-            books.put(book,books.get(book));
+            books.put(book,books.get(book) + 1 );
             System.out.println(book.toString()+" added to shelf "+ this.toString());
             return Code.SUCCESS;
 
         }
         //else statement , if book is not on shelf and if added to shelf
         else{
-            if(books.containsKey(book)){
+            if(!books.containsKey(book)){
                 //sets count of book to 1
                 books.put(book,1);
                 System.out.println(book.toString()+" added to shelf "+ this.toString());

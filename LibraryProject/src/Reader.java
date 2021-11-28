@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ public class Reader {
         this.cardNumber=cardNumber;
         this.name=name;
         this.phone=phone;
+        books = new ArrayList<>();
     }
     public Code addBook(Book book){
       if(hasBook(book)){
@@ -41,9 +43,10 @@ public class Reader {
 
     }
 public boolean hasBook(Book book){
-        if(hasBook(book)){
-        }
-    return true;
+    for (Book book1 : books){
+        if (book.equals(book1)) return true;
+    }
+    return false;
 
 }
 
