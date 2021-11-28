@@ -142,9 +142,11 @@ public class Library {
 
             Reader read = new Reader(cardNum, name, phone);
             addReader(read);
-            for (int i = 0; i < Reader.BOOK_COUNT_; i++) {
-                Book bookadd = getBookByISBN(readerinfo[4]);
+            int bookCount = Integer.parseInt(readerinfo[Reader.BOOK_COUNT_]);
+            for (int i = Reader.BOOK_COUNT_ + 1; i < Reader.BOOK_COUNT_ + bookCount * 2; i += 2) {
+                Book bookadd = getBookByISBN(readerinfo[i]);
                 bookadd.setDueDate(duedate);
+                read.addBook(bookadd);
             }
         }
         System.out.println("SUCCESS");
